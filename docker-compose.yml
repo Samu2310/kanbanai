@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: kanbanai_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-kanbanai}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kanbanai_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-kanbanai_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-kanbanai} -d ${POSTGRES_DB:-kanbanai_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    image: node:20-alpine
+    container_name: kanbanai_frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"  # ← CAMBIO
+    #command: sh -c "npm install && npm run dev"
+    depends_on:
+      - db
+    
+  backend:
+    image: python:3.11-slim
+    container_name: kanbanai_backend
+    working_dir: /app
+    volumes:
+    - ./backend:/app
+    ports:
+    - "8000:8000"
+    command: sh -c "pip install -r requirements.txt && alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    environment:
+    - DATABASE_URL=postgresql://kanbanai:kanbanai_pass@db:5432/kanbanai_db
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

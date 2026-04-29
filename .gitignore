@@ -1,0 +1,45 @@
+# ─── Python ───────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.Python
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# ─── Variables de entorno (NUNCA versionar credenciales) ──
+.env
+!.env.example
+
+# ─── Node / Frontend ──────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# ─── Alembic ──────────────────────────────────────────────
+# Las versiones SÍ se versionan; esto no excluye nada de alembic
+
+# ─── Bases de datos locales ───────────────────────────────
+*.db
+*.sqlite
+
+# ─── IDEs ─────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── Sistema operativo ────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── Cobertura de pruebas ─────────────────────────────────
+.coverage
+htmlcov/
+.pytest_cache/

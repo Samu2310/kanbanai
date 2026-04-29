@@ -1,0 +1,6 @@
+# Esta carpeta almacena los archivos de migración generados por Alembic.
+# Ejemplo de comando para crear una migración:
+#   alembic revision --autogenerate -m "crear tablas iniciales"
+#
+# Ejemplo de comando para aplicar migraciones:
+#   alembic upgrade head

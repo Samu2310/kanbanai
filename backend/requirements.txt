@@ -1,0 +1,30 @@
+# ─── API Framework ─────────────────────────────────────────
+fastapi==0.115.5
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20       # Necesario para form data (login)
+
+# ─── Base de datos ──────────────────────────────────────────
+sqlalchemy==2.0.40
+alembic==1.14.1
+# psycopg2-binary: sin pin estricto para que pip tome la rueda precompilada
+# compatible con tu versión de Python (3.13). 2.9.9 no tiene wheel para 3.13.
+psycopg2-binary>=2.9.10
+
+# ─── Autenticación ──────────────────────────────────────────
+python-jose[cryptography]==3.3.0   # Generación y validación de JWT
+passlib[bcrypt]==1.7.4             # Hashing de contraseñas con bcrypt
+# IMPORTANTE: passlib 1.7.4 tiene un bug conocido con bcrypt >= 4.1.
+# Pin explícito a 4.0.1 para evitar AttributeError en tiempo de ejecución.
+bcrypt==4.0.1
+
+# ─── Configuración y validación ─────────────────────────────
+pydantic-settings==2.8.1       # Leer variables de entorno tipadas
+email-validator==2.2.0         # Validar formato de emails en schemas
+
+# ─── Pruebas ────────────────────────────────────────────────
+httpx==0.28.1                  # Cliente HTTP async para tests de FastAPI
+pytest==8.3.5
+pytest-asyncio==0.25.3
+
+# ─── IA ──────────────────────────────────────────────────────
+google-generativeai==0.8.4
